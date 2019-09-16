@@ -18,6 +18,13 @@ const Label = styled.label`
     font-size: 20px;
 `
 
+const SubLabel = styled.label`
+    margin: 1px;
+    font-size: 20px;
+    border: 1px solid black;
+    padding: 5px;
+`
+
 const quizObj = (props) => {
     return (
         <Wrappper>
@@ -30,53 +37,46 @@ const quizObj = (props) => {
 }
 
 const questionObj = (props) => {
-    console.log(props.option);
-    
+    // console.log(props.option);
+    // for (const [key, value] of Object.entries(props.option)) {
+    //     console.log(`${key} ${value}`);
+    //     console.log(Object.entries(value));
+    //     for(const [key1, value1] of Object.entries(value)) {
+    //         // console.log();
+    //         console.log(`${key1} ${value1}`);
+    //     }
+    // }
+
     return (
         <Wrappper>
             <Row>
                 <Label>{props.question}</Label>
-                {/* <Row>
-                    {props.options.map((o) => 
-                        <Label>
-                            {o}
-                        </Label>
-                    )}
-                </Row>
-                <Label>{props.options}</Label> */}
                 <Label>{optionObj(props.option)}</Label>
             </Row>
         </Wrappper>
     )
 }
-
-// const optionObj = (option) => {
-//     console.log(option);
-//     return (
-//         <Label>{option}</Label>
-//     )
-// }
-
 const optionObj = (option) => {
-    console.log(option);
-    return (
-        Object.entries(option).map(key =>        
-            <Label key={key}>[key]</Label>    
-        )
-    )
+    var op = []
+    
+    for (const [key, value] of Object.entries(option)) {
+        for(const [key1, value1] of Object.entries(value)) {
+            op.push(value1) 
+        }
+    }
 
-    // return Object.entries(option).map(([key,value]) => (
-    //     <Label key={key}>
-    //         {value}
-    //     </Label>
-    // ))
+    // console.log(op);
 
-    // return Object.keys(option).map((key,value) =>{
-    //     <Label key={key}>
-    //         {value}
-    //     </Label>
-    // })
+    return Object.entries(op).map(([key,value]) => (
+        <SubLabel key={key} onClick={onLabelOnClick}>
+            {value}
+        </SubLabel>
+    ))
 }
+
+const onLabelOnClick = () => {    
+    console.log('onLabelOnClick');
+} 
 
 const scoreObj = (props) => {
     return (

@@ -12,6 +12,9 @@ const Question = new Schema(
             default: 0},
         order: {
             type: Number, 
+            default: 0},
+        point: {
+            type: Number, 
             default: 0}
     },
     { timestamps: true }

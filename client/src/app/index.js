@@ -25,7 +25,7 @@ const App = () => {
       <NavBar />
       <Switch>
         <Route path="/" exact component={FrontPage} />
-        <Route path="/quiz"        exact component={Quiz} />
+        <Route path="/quiz" exact component={Quiz} />
         <Route path="/question" exact component={Question} />
         <Route path="/score" exact component={Score} />
       </Switch>

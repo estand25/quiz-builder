@@ -10,7 +10,6 @@ const ListObj = (props) => {
 
     useEffect(
         () => {
-            
             if(props.type === 'Quiz'){
                 apis.getAllQuiz().then(q => {
                     console.log('Quiz');
@@ -42,13 +41,17 @@ const ListObj = (props) => {
             <div>
                 {objList.map((i) => 
                     <TempObj key={i._id}
-                        name={i.name}
-                        desc={i.description}
-                        question={i.question}
-                        option={i.options}
-                        score={i.score}
-                        nonAnswered={i.nonAnswered}
-                        type={props.type}
+                        name = {'Title: ' + i.name}
+                        desc = {'Description: ' + i.description}
+                        question = {'Question: ' + i.question}
+                        option = {i.options}
+                        opTitle = {'Question Options: '}
+                        score = {'Score: ' + i.score}
+                        sQuizTitle = {'Quiz: '}
+                        sQuestionCount ={'Question Count: '}
+                        nonAnswered = {i.nonAnswered}
+                        quizId = {i.quizId}
+                        type = {props.type}
                     />
                 )}
             </div>

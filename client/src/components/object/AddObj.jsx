@@ -15,7 +15,7 @@ const AddButton = styled.div.attrs({
 
 const AddObj = (props) => {
     const addNewObject = () =>{
-        console.log("adding new Object");
+        console.log("adding new Object " + props.AddObjectName);
     }
 
     return (

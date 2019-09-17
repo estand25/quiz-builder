@@ -78,6 +78,11 @@ updateQuestion = (req, res) => {
         else
             question.order = question.order
 
+        if(body.point !== undefined)
+            question.point = body.point
+        else
+            question.point = question.point
+
         question
             .save()
             .then(() => {

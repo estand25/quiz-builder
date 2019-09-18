@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import ModifyBtnObj from '../ModifyBtnObj'
 
 const Wrappper = styled.div`
     padding: 5px 5px 5px 5px;
@@ -17,9 +18,14 @@ const Label = styled.label`
     margin: 1px;
     font-size: 20px;
 `
+
 const QuizObj = (props) => {
     return (
         <Wrappper>
+            <ModifyBtnObj 
+                Edit={() => console.log("edit")}
+                Delete={() => console.log("delete")}
+            />
             <Row>
                 <Label>{props.name}</Label>
                 <Label>{props.desc}</Label>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import api from '../../../api'
+import ModifyBtnObj from '../ModifyBtnObj'
 
 const Wrappper = styled.div`
     padding: 5px 5px 5px 5px;
@@ -35,6 +36,10 @@ const ScoreObj = (props) => {
 
     return (
         <Wrappper>
+            <ModifyBtnObj 
+                Edit={() => console.log("edit")}
+                Delete={() => console.log("delete")}
+            />
             <Label>{props.score}</Label>
             <Label>{props.sQuizTitle}{quizTitle}</Label>
             <Label>{props.sQuestionCount}{questionCount}</Label>

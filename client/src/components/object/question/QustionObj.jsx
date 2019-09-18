@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import OptionObj from '../OptionObj'
+import ModifyBtnObj from '../ModifyBtnObj'
 
 const Wrappper = styled.div`
     padding: 5px 5px 5px 5px;
@@ -21,6 +22,10 @@ const Label = styled.label`
 const QuestionObj = (props) => {
     return (
         <Wrappper>
+            <ModifyBtnObj 
+                Edit={() => console.log("edit")}
+                Delete={() => console.log("delete")}
+            />
             <Row>
                 <Label>{props.question}</Label>
                 <Label>{props.opTitle}{OptionObj(props, props.option)}</Label>

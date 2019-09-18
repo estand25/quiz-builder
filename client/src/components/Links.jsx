@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import Auth from './Auth'
 
 const Collapse = styled.div.attrs({
     className: 'collpase navbar-collapse',
@@ -39,6 +40,7 @@ const Links = () => {
                     </Item>
                 </List>
             </Collapse>
+            <Auth/>
         </React.Fragment>
     )
 }

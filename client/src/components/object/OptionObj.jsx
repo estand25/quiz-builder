@@ -16,7 +16,8 @@ const OptionObj = (props,option) => {
             onLabelOnClick={props.onLabelOnClick}
         />
     )
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
 }
 
-export default OptionObj
+export default OptionObj    
+
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries

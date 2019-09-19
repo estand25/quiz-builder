@@ -104,6 +104,7 @@ const QuizObj = (props) => {
 
     const onNameChange = async event => setName(event.target.value)
     const onDescriptionChange = async event => setDescription(event.target.value)
+    const onCancel = () => setStatus(false)
 
     return (
         <Wrappper>
@@ -116,6 +117,7 @@ const QuizObj = (props) => {
                 desc={description}
                 onNameChange={onNameChange}
                 onDescriptionChange={onDescriptionChange}
+                onCancel={onCancel}
                 status={status}
             />
         </Wrappper>

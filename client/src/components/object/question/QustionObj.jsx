@@ -23,8 +23,8 @@ const QuestionObj = (props) => {
     return (
         <Wrappper>
             <ModifyBtnObj 
-                Edit={() => console.log("edit")}
-                Delete={() => console.log("delete")}
+                Edit={props.onEditHandle}
+                Delete={props.onDeleteHandle}
             />
             <Row>
                 <Label>{props.question}</Label>

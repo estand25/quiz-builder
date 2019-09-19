@@ -37,8 +37,8 @@ const ScoreObj = (props) => {
     return (
         <Wrappper>
             <ModifyBtnObj 
-                Edit={() => console.log("edit")}
-                Delete={() => console.log("delete")}
+                Edit={props.onEditHandle}
+                Delete={props.onDeleteHandle}
             />
             <Label>{props.score}</Label>
             <Label>{props.sQuizTitle}{quizTitle}</Label>

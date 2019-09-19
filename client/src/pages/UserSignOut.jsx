@@ -14,8 +14,8 @@ const UserSignOutInner = (props) => {
             title={'Sign Out'}
             btnAccept={'Sign Out'}
             onPayloadUser={handleSignOutUserWithId}
-            onDirectTo={'/'}
-            onCancelDirectTo={'/'}
+            onDirectTo={'/about'}
+            onCancelDirectTo={'/about'}
             onLogInInfo={'0'}
         />
     )

@@ -14,8 +14,8 @@ const UserSignInInner = (props) => {
             title={'Sign-In'}
             btnAccept={'Sign-In'}
             onPayloadCreation={handleCreateUser}
-            onDirectTo={'/'}
-            onCancelDirectTo={'/'}
+            onDirectTo={'/about'}
+            onCancelDirectTo={'/about'}
             onLogInInfo={'1'}
         />
     )

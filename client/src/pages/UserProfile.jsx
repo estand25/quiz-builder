@@ -13,8 +13,8 @@ const UserProfileInner = (props) => {
             {...props}
             title={'User Profile'}
             btnAccept={'Update Profile'}
-            onDirectTo={'/'}
-            onCancelDirectTo={'/'}
+            onDirectTo={'/about'}
+            onCancelDirectTo={'/about'}
             onPayloadUpdate={handleUpdateUser}
         />
     )

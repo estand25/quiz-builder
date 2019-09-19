@@ -218,8 +218,6 @@ userSignIn = async (req, res) => {
                         })
                 }
 
-                _user_.username = body.username
-                _user_.password = body.password
                 _user_.status = "1"
         
                 _user_   
@@ -297,8 +295,6 @@ userSignOut = async (req, res) => {
                         })
                 }
 
-                _user_.username = body.username
-                _user_.password = body.password
                 _user_.status = "0"
         
                 _user_   

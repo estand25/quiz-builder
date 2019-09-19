@@ -92,6 +92,9 @@ const updateUserLocalSession = async (user, props) => {
         email: user.email
     }
 
+    console.log(user);
+    console.log(props);        
+
     props.updateAccount(updateUserStorage)
-    window.alert('User Successfully Sign-out!!')
+    window.alert('User Successfully Sign-In!!')
 }

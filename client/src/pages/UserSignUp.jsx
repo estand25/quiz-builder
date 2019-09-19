@@ -13,8 +13,8 @@ const UserSignUpInner = (props) => {
             {...props}
             title={'Sign-Up'}
             btnAccept={'Sign-Up'}
-            onDirectTo={'/'}
-            onCancelDirectTo={''}
+            onDirectTo={'/about'}
+            onCancelDirectTo={'/about'}
             onPayloadCreation={handleCreateUser}
             onUserType={'0'}
         />

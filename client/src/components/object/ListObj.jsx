@@ -10,7 +10,9 @@ const ListObj = (props) => {
 
     useEffect(
         () => {
-            if(props.type === 'Quiz'){
+            console.log(props._id);
+            
+            if(props.type === 'Quiz' ||props.type === 'Re-Quiz' ){
                 apis.getAllQuiz().then(q => {
                     console.log('Quiz');
                     console.log(q.data.data);
@@ -32,7 +34,7 @@ const ListObj = (props) => {
         },[props.type]
     )
 
-    const objs = () => {
+    const Objs = () => {
         if(objList.length === 0){
             return <Holder />
         }
@@ -52,6 +54,8 @@ const ListObj = (props) => {
                         nonAnswered = {i.nonAnswered}
                         quizId = {i.quizId}
                         type = {props.type}
+                        onEditHandle={props.onEditHandle}
+                        onDeleteHandle={props.onDeleteHandle}
                     />
                 )}
             </div>
@@ -60,9 +64,7 @@ const ListObj = (props) => {
     }
     
     return (
-        <div>
-            {objs()}
-        </div>
+        <Objs />
     )
 }
 

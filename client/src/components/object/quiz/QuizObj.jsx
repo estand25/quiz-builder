@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import ModifyBtnObj from '../ModifyBtnObj'
 
@@ -23,8 +23,8 @@ const QuizObj = (props) => {
     return (
         <Wrappper>
             <ModifyBtnObj 
-                Edit={() => console.log("edit")}
-                Delete={() => console.log("delete")}
+                Edit={props.onEditHandle}
+                Delete={props.onDeleteHandle}
             />
             <Row>
                 <Label>{props.name}</Label>

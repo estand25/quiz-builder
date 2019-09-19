@@ -7,20 +7,18 @@ const Wrapper = styled.div.attrs({
     margin: 0 30px;
 `
 
-const AddButton = styled.div.attrs({
+const AddBtn = styled.div.attrs({
     className: 'btn btn-primary',
 })`
     margin: 15px 15px 15px 15px;
 `
 
 const AddObj = (props) => {
-    const addNewObject = () =>{
-        console.log("adding new Object " + props.AddObjectName);
-    }
-
     return (
         <Wrapper>
-            <AddButton onClick={addNewObject}>Add {props.AddObjectName}</AddButton>
+            <AddBtn onClick={props.onAddHandle}>
+                Add {props.AddObjectName}
+            </AddBtn>
         </Wrapper>
     )
 }

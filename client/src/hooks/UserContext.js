@@ -19,7 +19,7 @@ class UserProvider extends React.Component {
         ls.set('password', payload.password)
         ls.set('email', payload.email)
 
-        this.state({
+        this.setState({
             _id: ls.get('_id') || payload._id,
             username: ls.get('username') || payload.username,
             password: ls.get('password') || payload.password,

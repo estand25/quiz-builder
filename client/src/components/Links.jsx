@@ -18,7 +18,7 @@ const Item = styled.div.attrs({
 const Links = () => {
     return (
         <React.Fragment>
-            <Link to="/" className="navbar-brand">
+            <Link to="/about" className="navbar-brand">
                 My Third MERN Application
             </Link>
             <Collapse>

@@ -31,14 +31,14 @@ const App = () => {
       <Router>
         <NavBar />
         <Switch>
-          <Route exact={true} path="/" component={FrontPage} />
+          <Route path="/about" exact component={FrontPage} />
           <Route path="/quiz" exact component={Quiz} />
           <Route path="/question" exact component={Question} />
           <Route path="/score" exact component={Score} />
-          <Route Path="/signUp" exact component={Up} />
-          <Route Path="/signOut" exact component={Out} />
-          <Route Path="/signIn" exact component={In} />
-          <Route Path="/userProfile" exact component={Pro} /> 
+          <Route path="/signIn" exact component={In} />
+          <Route path="/signOut" exact component={Out} />
+          <Route path="/signUp" exact component={Up} />
+          <Route path="/userProfile" exact component={Pro} /> 
         </Switch>
       </Router>
     </UserProvider>

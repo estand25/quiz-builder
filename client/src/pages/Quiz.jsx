@@ -21,33 +21,20 @@ const Cancel = styled.button.attrs({
 })`
     margin 15px 15px 15px 5px;
 `
-const Holder = styled.div``
 
-const InputText = styled.input.attrs({
-    className: 'form-control',
-})`
-    margin: 5px;
-`
-const Label = styled.label`
-    margin: 5px;
-`
-const Spacing = styled.div`
-    padding: 5px;
-`
-
-const AddSectionInner = (props) => {
+const AddSection = (props) => {
     if(props.addStatus){
         return (
-            // <div>
+            <div>
                 <QuizModifyObj 
                     name={props.name}
                     description={props.description}
                     onNameChange={props.onNameChange}
                     onDescriptionChange={props.onDescriptionChange}
                 />
-                // <Add onClick={props.addNewQuiz}>{'Add'}</Add>
-                //<Cancel href={'/about'}>{'Cancel'}</Cancel>
-            //</div>
+                <Add onClick={props.addNewQuiz}>{'Add'}</Add>
+                <Cancel onClick={props.onCancel}>{'Cancel'}</Cancel>
+            </div>
         )
     } else {
         return <Blank />
@@ -60,19 +47,8 @@ const QuizInner = (props) => {
     const [text, setText] = useState('Quiz')
 
     const handleAddQuiz = () => {
-        console.log('Add new Quiz');
-        console.log(currentStatus);
-
         var currentStatus = addStatus ? false : true;
         setAddStatus(currentStatus)
-    }
-
-    const handleEditQuiz = () => {
-        console.log('Edit Quiz');
-    }
-
-    const handleDeleteQuiz = () => {
-        console.log('Delete Quiz');
     }
 
     const onNameChange = async event => setName(event.target.value)
@@ -84,34 +60,18 @@ const QuizInner = (props) => {
             description 
         }
 
-        await api.insertQuiz(payload).then(res => {
-            if(res.data.success == true){
+        console.log(payload);
+        
+       await api.insertQuiz(payload).then(res => {
+            if(res.data.success === true){
                 setAddStatus(false)
                 setName('')
                 setDescription('')
                 window.alert('Quiz created successfully !!')
-                setText('Re-Quiz')
+                setText('Quiz')
+                window.location.href = '/quiz'
             }
         })
-    }
-
-    const AddSection = () => {
-        if(addStatus){
-            return (
-                <div>
-                    <QuizModifyObj 
-                        name={name}
-                        description={description}
-                        onNameChange={onNameChange}
-                        onDescriptionChange={onDescriptionChange}
-                    />
-                    <Add onClick={addNewQuiz}>{'Add'}</Add>
-                    <Cancel href={'/about'}>{'Cancel'}</Cancel>
-                </div>
-            )
-        } else {
-            return <Blank />
-        }
     }
 
     return (
@@ -120,11 +80,17 @@ const QuizInner = (props) => {
                 AddObjectName={'Quiz'}
                 onAddHandle={handleAddQuiz}
             />
-            <AddSection />
+            <AddSection 
+                name={name}
+                description={description}
+                onNameChange={onNameChange}
+                onDescriptionChange={onDescriptionChange}
+                addNewQuiz={addNewQuiz}
+                addStatus={addStatus}
+                onCancel={handleAddQuiz}
+            />
             <ListObj 
                 type={text}
-                onEditHandle={handleEditQuiz}
-                onDeleteHandle={handleDeleteQuiz}
                 _id={props._id}
             />
         </div>

@@ -11,8 +11,9 @@ const ListObj = (props) => {
     useEffect(
         () => {
             console.log(props._id);
-            
-            if(props.type === 'Quiz' ||props.type === 'Re-Quiz' ){
+            console.log(props.type);
+
+            if(props.type === 'Quiz'){
                 apis.getAllQuiz().then(q => {
                     console.log('Quiz');
                     console.log(q.data.data);
@@ -31,7 +32,7 @@ const ListObj = (props) => {
                     setObjList(s.data.data)            
                 })
             }
-        },[props.type]
+        },[props.type, props._id]
     )
 
     const Objs = () => {
@@ -52,10 +53,8 @@ const ListObj = (props) => {
                         sQuizTitle = {'Quiz: '}
                         sQuestionCount ={'Question Count: '}
                         nonAnswered = {i.nonAnswered}
-                        quizId = {i.quizId}
+                        quizId = {i._id}
                         type = {props.type}
-                        onEditHandle={props.onEditHandle}
-                        onDeleteHandle={props.onDeleteHandle}
                     />
                 )}
             </div>

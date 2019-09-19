@@ -18,7 +18,7 @@ const Spacing = styled.div`
 const QuizModifyObj = (props) => {
     return (
         <Holder>
-            <Label>{'Quiz Name:'}</Label>
+            <Label>{'Title:'}</Label>
             <Spacing>
                 <InputText
                     type="text"
@@ -26,7 +26,7 @@ const QuizModifyObj = (props) => {
                     onChange={props.onNameChange}
                 />
             </Spacing>
-            <Label>{'Quiz Description: '}</Label>
+            <Label>{'Description: '}</Label>
             <Spacing>
                 <InputText
                     type="text"

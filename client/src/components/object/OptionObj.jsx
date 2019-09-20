@@ -1,7 +1,7 @@
 import React from 'react'
 import OptionButton from './OptionButton'
 
-const OptionObj = (props,option) => {
+const OptionObj = (props, option) => {
     var op = []
 
     for (const [key, value] of Object.entries(option)) {

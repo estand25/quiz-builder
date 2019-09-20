@@ -22,8 +22,19 @@ const ListObj = (props) => {
             } else if(props.type === 'Question') {
                 apis.getAllQuestion().then(qu => {
                     console.log('Question');
-                    console.log(qu.data.data);  
-                    setObjList(qu.data.data)        
+                    console.log(qu.data.data);
+                    setObjList(qu.data.data)
+                    // for(var i = 0; i < qu.data.data.length; i++){
+                    //     const question = qu.data.data[i]                        
+                    //     apis.getQuizById(question.quizId).then(res => {
+                    //         if(res.data.success == true){
+                    //             question.quizName = res.data.data.name;
+                    //             question.quizDesc = res.data.data.description;
+                    //             objList.push(question)  
+                    //             setObjList(objList) 
+                    //         }
+                    //     })
+                    // }  
                 })
             } else {
                 apis.getAllScore().then(s => {
@@ -32,7 +43,7 @@ const ListObj = (props) => {
                     setObjList(s.data.data)            
                 })
             }
-        },[props.type, props._id]
+        },[props.type, props._id,objList]
     )
 
     const Objs = () => {
@@ -54,7 +65,7 @@ const ListObj = (props) => {
                         opTitle = {'Question Options: '}
                         cAnswerTitle={'Correct Answer: '}
                         cAnswer={i.answer}
-                        qQuiz={i.quizId}
+                        qQuiz={i.quizName}
                         qQuizTitle={'Quiz: '}
                         score = {'Score: ' + i.score}
                         sQuizTitle = {'Quiz: '}

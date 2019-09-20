@@ -1,74 +1,39 @@
 import React, { useState } from 'react'
 import { 
     AddObj,
-    ListObj,
-    QuizModifyObj
+    ListObj
 } from '../components'
 import { UserConsumer } from '../hooks/UserContext'
-import styled from 'styled-components'
+import QuizAddSection from '../components/object/quiz/QuizAddSection'
 import api from '../api'
 
-const Blank = styled.div``
-
-const Add = styled.button.attrs({
-    className: 'btn btn-primary',
-})`
-    margin: 15px 15px 15px 5px;
-` 
-
-const Cancel = styled.button.attrs({
-    className: 'btn btn-danger',
-})`
-    margin 15px 15px 15px 5px;
-`
-
-const AddSection = (props) => {
-    if(props.addStatus){
-        return (
-            <div>
-                <QuizModifyObj 
-                    name={props.name}
-                    description={props.description}
-                    onNameChange={props.onNameChange}
-                    onDescriptionChange={props.onDescriptionChange}
-                />
-                <Add onClick={props.addNewQuiz}>{'Add'}</Add>
-                <Cancel onClick={props.onCancel}>{'Cancel'}</Cancel>
-            </div>
-        )
-    } else {
-        return <Blank />
-    }
-}
 const QuizInner = (props) => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [addStatus, setAddStatus] = useState(false)
     const [text, setText] = useState('Quiz')
 
+    const onNameChange = async event => setName(event.target.value)
+    const onDescriptionChange = async event => setDescription(event.target.value)
+
     const handleAddQuiz = () => {
         var currentStatus = addStatus ? false : true;
         setAddStatus(currentStatus)
     }
-
-    const onNameChange = async event => setName(event.target.value)
-    const onDescriptionChange = async event => setDescription(event.target.value)
 
     const addNewQuiz = async () => {
         const payload = {
             name,
             description 
         }
-
-        console.log(payload);
         
        await api.insertQuiz(payload).then(res => {
             if(res.data.success === true){
                 setAddStatus(false)
                 setName('')
                 setDescription('')
-                window.alert('Quiz created successfully !!')
                 setText('Quiz')
+                window.alert('Quiz created successfully !!')
                 window.location.href = '/quiz'
             }
         })
@@ -80,7 +45,7 @@ const QuizInner = (props) => {
                 AddObjectName={'Quiz'}
                 onAddHandle={handleAddQuiz}
             />
-            <AddSection 
+            <QuizAddSection 
                 name={name}
                 description={description}
                 onNameChange={onNameChange}

@@ -29,6 +29,8 @@ const QuestionObj = (props) => {
             <Row>
                 <Label>{props.question}</Label>
                 <Label>{props.opTitle}{OptionObj(props, props.option)}</Label>
+                <Label>{props.cAnswerTitle}{props.cAnswer}</Label>
+                <Label>{props.qQuizTitle}{props.qQuiz}</Label>
             </Row>
         </Wrappper>
     )

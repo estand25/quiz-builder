@@ -44,11 +44,18 @@ const ListObj = (props) => {
             <div>
                 {objList.map((i) => 
                     <TempObj key={i._id}
-                        name = {'Title: ' + i.name}
-                        desc = {'Description: ' + i.description}
-                        question = {'Question: ' + i.question}
+                        name = {i.name}
+                        nameTitle = {'Title: '}
+                        desc = {i.description}
+                        descTitle = {'Description: '}
+                        question = { i.question}
+                        questionTitle= {'Question: '}
                         option = {i.options}
                         opTitle = {'Question Options: '}
+                        cAnswerTitle={'Correct Answer: '}
+                        cAnswer={i.answer}
+                        qQuiz={i.quizId}
+                        qQuizTitle={'Quiz: '}
                         score = {'Score: ' + i.score}
                         sQuizTitle = {'Quiz: '}
                         sQuestionCount ={'Question Count: '}

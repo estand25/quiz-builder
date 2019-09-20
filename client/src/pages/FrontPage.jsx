@@ -23,7 +23,12 @@ If your following the tutorial above it will walk you through creating a simple 
 ### Future Features
 I plan on adding the following features to contiune the learning:
 
-- TBD
+- Base Functional:
+    - Add Quizzies
+    - Add Questions for the Quiz's
+    - Add Scoring requirements for the Quizzies
+    - Preview Quize
+    - Export Quiz's as Mark (html, export, etc.)
 
 ## What you should install?
 

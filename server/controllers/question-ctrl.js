@@ -1,4 +1,5 @@
 const Question = require('../models/question-model')
+const Quiz = require('../models/quiz-model')
 
 createQuestion = (req, res) => {
     const body = req.body
@@ -138,13 +139,36 @@ getQuestionById = async (req, res) => {
             return res
                 .status(404).json({ 
                     success: false, 
-                    message: `Note not found` 
+                    message: `Question not found` 
                 })
         }
 
-        return res.status(200).json({
-            success: true, 
-            data: question
+        Quiz.findOne({_id: question.quizId}, (err1, quiz) =>{
+            if(err1){
+                return res.status(400).json({ 
+                    success: false, 
+                    message: err1
+                })
+            }
+    
+            if(!quiz){
+                return res
+                    .status(404).json({ 
+                        success: false, 
+                        message: `Quiz for question not found` 
+                    })
+            }
+
+            var nQues = {}
+            nQues.quizName = quiz.name
+            nQues.quizDescription = quiz.description
+            
+            return res.status(200).json({
+                success: true, 
+                data: question,
+                dataExtra: nQues
+            })
+            
         })
     }).catch(err => console.log(err))    
 }
@@ -166,11 +190,38 @@ getQuestion = async (req, res) => {
                 })
         }
 
-        return res
-            .status(200).json({ 
-                success: true, 
-                data: question 
-            })
+        var nQues = []
+        Quiz.find({}, (err1, quizzies) => {
+            if(err1){
+                return res.status(400).json({ 
+                    success: false, 
+                    message: err1
+                })
+            }
+    
+            if(!quizzies.length){
+                return res
+                    .status(404).json({ 
+                        success: false, 
+                        message: `Quiz for questions not found` 
+                    })
+            }
+            var nQue = {}
+            var i = question.map(b => b.quizId)
+            
+            for(var id of i){
+                nQue.quizName = quizzies.filter(a => a._id == id).map(q => q.name)
+                nQue.quizDescription = quizzies.filter(a => a._id == id).map(q => q.description)
+                nQues.push(nQue)
+            }
+
+            return res
+                .status(200).json({ 
+                    success: true, 
+                    data: question,
+                    dataExtra: nQues
+                })
+        })
     }).catch(err => console.log(err))
 }
 

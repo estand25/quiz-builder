@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import OptionObj from '../OptionObj'
 import ModifyBtnObj from '../ModifyBtnObj'
-import api from '../../../api'
 
 const Wrappper = styled.div`
     padding: 5px 5px 5px 5px;
@@ -33,42 +32,40 @@ const GeneralButton = styled.button`
 const OptionObjSelect = (props) => {
     var oAnswer = ''
 
-    for(const option of Object.entries(props.options)){
-        var item = option[1]
-        
-        if(Object.getOwnPropertyNames(item).toString() === props.cAnswer){
-            Object.getOwnPropertyNames(item).forEach(
+    for(const option of Object.entries(props.options)){        
+        if(Object.getOwnPropertyNames(option[1]).toString() === props.cAnswer){
+            Object.getOwnPropertyNames(option[1]).forEach(
                 function(val){
-                    // console.log(item[val]);
-                    oAnswer = item[val]
+                    oAnswer = option[1][val]
                 }
             )
         }
     }
 
-    var quizName = ''
-    // api.getQuizById(props.qQuiz).then(res => {
-    //     if(res.data.success == true){
-    //         var quiz = res.data.data
-
-    //         quizName = quiz.name
-
-    //         console.log(quiz);
-    //         console.log(quizName);
-
-            
-    //     }
-    // })
-           
     return(
         <Row>
-            <Label>{props.question}</Label>
-            <Label>{props.opTitle}{OptionObj(props, props.options)}</Label>
+            <Label>{props.questionTitle}
+                {props.question}
+            </Label>
+            <Label>{props.opTitle}
+                {OptionObj(props, props.options)}
+            </Label>
             <Label>{props.cAnswerTitle}
-                <GeneralButton>{oAnswer}</GeneralButton>
+                <GeneralButton>
+                    {oAnswer}
+                </GeneralButton>
             </Label>
             <Label>{props.qQuizTitle}
                 {props.qQuiz}
+            </Label>
+            <Label>{props.qPointTitle}
+                {props.qPoint}
+            </Label>
+            <Label>{props.qOrderTitle}
+                {props.qOrder}
+            </Label>
+            <Label>{props.qStatusTitle}
+                {props.qStatus == "0" ? "Turn Off":"Turn On"}
             </Label>
         </Row>
     ) 
@@ -83,12 +80,21 @@ const QuestionObj = (props) => {
             />
             <OptionObjSelect
                 question={props.question}
+                questionTitle={props.questionTitle}
                 opTitle={props.opTitle}
                 cAnswerTitle={props.cAnswerTitle}
                 cAnswer={props.cAnswer}
                 qQuizTitle={props.qQuizTitle}
                 qQuiz={props.qQuiz}
                 options={props.option}
+                qPoint={props.qPoint}
+                qPointTitle={props.qPointTitle}
+                qOrder={props.qOrder}
+                qOrderTitle={props.qOrderTitle}
+                qStatus={props.qStatus}
+                qStatusTitle={props.qStatusTitle}
+
+
             />
         </Wrappper>
     )

@@ -22,19 +22,17 @@ const ListObj = (props) => {
             } else if(props.type === 'Question') {
                 apis.getAllQuestion().then(qu => {
                     console.log('Question');
-                    console.log(qu.data.data);
-                    setObjList(qu.data.data)
-                    // for(var i = 0; i < qu.data.data.length; i++){
-                    //     const question = qu.data.data[i]                        
-                    //     apis.getQuizById(question.quizId).then(res => {
-                    //         if(res.data.success == true){
-                    //             question.quizName = res.data.data.name;
-                    //             question.quizDesc = res.data.data.description;
-                    //             objList.push(question)  
-                    //             setObjList(objList) 
-                    //         }
-                    //     })
-                    // }  
+
+                    var questions = qu.data.data
+                    var quQuiz = qu.data.dataExtra
+
+                    for(var i=0; i < questions.length; i++){
+                        questions[i].quizName = quQuiz[i].quizName[0]
+                        questions[i].quizDescription = quQuiz[i].quizDescription[0]
+                    }
+
+                    // console.log(questions);
+                    setObjList(questions)
                 })
             } else {
                 apis.getAllScore().then(s => {
@@ -43,7 +41,7 @@ const ListObj = (props) => {
                     setObjList(s.data.data)            
                 })
             }
-        },[props.type, props._id,objList]
+        },[props.type, props._id]
     )
 
     const Objs = () => {
@@ -55,24 +53,31 @@ const ListObj = (props) => {
             <div>
                 {objList.map((i) => 
                     <TempObj key={i._id}
-                        name = {i.name}
-                        nameTitle = {'Title: '}
-                        desc = {i.description}
-                        descTitle = {'Description: '}
-                        question = { i.question}
-                        questionTitle= {'Question: '}
-                        option = {i.options}
-                        opTitle = {'Question Options: '}
+                        name={i.name}
+                        nameTitle={'Title: '}
+                        desc={i.description}
+                        descTitle={'Description: '}
+                        question={ i.question}
+                        questionTitle={'Question: '}
+                        option={i.options}
+                        opTitle={'Question Options: '}
                         cAnswerTitle={'Correct Answer: '}
                         cAnswer={i.answer}
                         qQuiz={i.quizName}
                         qQuizTitle={'Quiz: '}
-                        score = {'Score: ' + i.score}
-                        sQuizTitle = {'Quiz: '}
-                        sQuestionCount ={'Question Count: '}
-                        nonAnswered = {i.nonAnswered}
-                        quizId = {i._id}
-                        type = {props.type}
+                        qPointTitle={'Point: '}
+                        qPoint={i.point}
+                        score={'Score: ' + i.score}
+                        qOrder={i.order}
+                        qOrderTitle={'Order: '}
+                        qStatus={i.status}
+                        qStatusTitle={'Status: '}
+                        sQuizTitle={'Quiz: '}
+                        sQuestionCount={'Question Count: '}
+                        qQuizId={i.quizId}
+                        nonAnswered={i.nonAnswered}
+                        quizId={i._id}
+                        type={props.type}
                     />
                 )}
             </div>

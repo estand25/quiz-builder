@@ -1,21 +1,61 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
+import styled from 'styled-components'
 import { 
     AddObj,
     ListObj
 } from '../components'
 import { UserConsumer } from '../hooks/UserContext'
+import api from '../api'
 import QuestionAddSection from '../components/object/question/QuestionAddSection'
 
+const Select = styled.select`
+    width: 100%;
+    height: 35px;
+    background: white;
+    color: gray;
+    font-size: 14px;
+    border: 1px solid black;
 
+    option {
+        color: black;
+        background: white;
+        display: flex;
+        white-space: pre;
+        min-height: 20px;
+        padding: 15px 15px 15px 15px;
+    }
+`
 const QuestionInner = (props) => {
     const [name, setName] = useState(props.question)
     const [qOption, setQOption] = useState(props.option)
     const [qOptions, setQoptions] = useState([])
     const [addStatus, setAddStatus] = useState(false)
-    const [text, setText] = useState('Question')
+    const [quizList, setQuizList] = useState([])
+    const [quizSelection, setQuizSelection] = useState('')
+    const [correctAnswer, setCorrectAnswer] = useState('')
+    const [questionCount, setQuestionCount] = useState(0)
 
+    const [text, setText] = useState('Question')
     const onNameChange = event => setName(event.target.value)
     const onOptionChange = event => setQOption(event.target.value)
+
+    useEffect(
+        () => {
+            api.getAllQuiz().then(q =>{
+                if(q.data.success === true){
+                    var quiz = q.data.data.map(i => (
+                        {   _id: i._id, 
+                            name: i.name, 
+                            description: i.description
+                        })
+                    )
+
+                    setQuizList(quiz)
+                }
+            })
+        },[]
+    )
+
     const onOptionAdd = e => {  
         if(e.key === 'Enter'){
             var items = qOptions
@@ -53,6 +93,137 @@ const QuestionInner = (props) => {
         setQoptions([])
     }
 
+    const handleCorrectAnswerList = () => {
+        console.log(correctAnswer);        
+        var correctAnswerList = []
+
+        for(const option of Object.entries(qOptions)){        
+            for(var a=1; a < option.length; a = a + 3){
+                Object.getOwnPropertyNames(option[a]).forEach(
+                    function(val){
+                        correctAnswerList.push({
+                            _id: val,
+                            name: option[a][val]
+                        });
+                    }
+                )
+            }
+        }
+        
+
+        return (
+            <Select>
+                <option value="" hidden>
+                    - Select One -
+                </option>
+                {correctAnswerList.map((q) =>
+                        <option key={q._id}
+                            value={correctAnswer}
+                            onChange={event => setCorrectAnswer(event.target.value)}
+                        >
+                            {q.name}
+                        </option>
+                    )
+                }
+            </Select>
+        )
+    }
+
+    const handleQuizList = () => {
+        console.log(quizSelection);
+        
+        return (
+            <Select>
+                <option value="" hidden>
+                    - Select One -
+                </option>
+                    {quizList.map((q) =>
+                        <option key={q._id}
+                            value={quizSelection}
+                            onChange={event => setQuizSelection(event.target.value)}
+                        >
+                            {q.name}
+                        </option>         
+                    )}
+            </Select>
+        )
+    }
+
+    const handlePointList = () => {
+        var pointList = []
+
+        for(var i=0; i <= 100; i = i + 5){
+            pointList.push({
+                _id: i,
+                name: i
+            })
+        }
+
+        return (
+            <Select>
+                <option value="" hidden>
+                    - Select One -
+                </option>
+                {pointList.map((q) =>
+                        <option key={q._id} value={q.name}>
+                            {q.name}
+                        </option>
+                    )
+                }
+            </Select>
+        )
+    }
+
+    const handleOrder = () => {
+            var orderList = []
+            for(var i=0; i < questionCount; i++){
+                orderList.push({
+                    _id:i,
+                    name:i
+                })
+            }
+
+            console.log(orderList);
+            
+            return (
+                <Select>
+                    <option value="" hidden>
+                        - Select One -
+                    </option>
+                    {orderList.map((q) =>
+                            <option key={q._id} value={q.name}>
+                                {q.name}
+                            </option>
+                        )
+                    }
+                </Select>  
+            )                          
+    }
+
+    const handleStatus = () => {
+        var statusList = [] 
+        for(var i=0;i < 2; i++){
+            statusList.push({
+                _id:i,
+                name: i == 0? "Turned Off": "Turn On"
+            })
+        }
+
+        return (
+            <Select>
+                <option value="" hidden>
+                    - Select One -
+                </option>
+                {statusList.map((q) =>
+                        <option key={q._id} value={q.name}>
+                            {q.name}
+                        </option>
+                    )
+                }
+            </Select>
+        )
+    }
+
     const addNewQuestion = async() => {
         const payload = {
 
@@ -80,10 +251,14 @@ const QuestionInner = (props) => {
                 option={qOption}
                 onOptionAdd={onOptionChange}
                 options={qOptions}
-                optionsTitle={'Options: '}
                 onOptionAdding={onOptionAdd}
                 addNewQuestion={addNewQuestion}
                 onCancel={handleAddQuestion}
+                onCorrectAnswerList={handleCorrectAnswerList}
+                onQuizList={handleQuizList}
+                onPintList={handlePointList}
+                onOrder={handleOrder}
+                onStatus={handleStatus}
             />
             <ListObj
                 type={'Question'}

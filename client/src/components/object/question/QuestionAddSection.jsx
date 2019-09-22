@@ -29,12 +29,6 @@ const Cancel = styled.button.attrs({
 })`
     margin 15px 15px 15px 5px;
 `
-// const Preview =  styled.button.attrs({
-//     className: 'btn btn-primary',
-// })`
-//     background-color: gray;
-//     margin: 15px 15px 15px 5px;
-// ` 
 
 const QuestionAddSection = (props) => {
     if(props.status){       
@@ -89,7 +83,6 @@ const QuestionAddSection = (props) => {
                 </Spacing>
                 <Add onClick={props.addNewQuestion}>{'Add'}</Add>
                 <Cancel onClick={props.onCancel}>{'Cancel'}</Cancel>
-                {/* <Preview>{'Preview'}</Preview> */}
             </Holder>
         )
     } else {

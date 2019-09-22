@@ -33,9 +33,11 @@ const QuestionInner = (props) => {
     const [quizList, setQuizList] = useState([])
     const [quizSelection, setQuizSelection] = useState('')
     const [correctAnswer, setCorrectAnswer] = useState('')
+    const [point, setPoint] = useState(0)
+    const [status, setStatus] = useState('')
     const [questionCount, setQuestionCount] = useState(0)
 
-    const [text, setText] = useState('Question')
+    // const [text, setText] = useState('Question')
     const onNameChange = event => setName(event.target.value)
     const onOptionChange = event => setQOption(event.target.value)
 
@@ -53,7 +55,17 @@ const QuestionInner = (props) => {
                     setQuizList(quiz)
                 }
             })
-        },[]
+
+            api.getAllQuestion().then(qu => {
+                if(qu.data.success === true){
+                    var allQuestionForCurrentSelectQuiz =
+                        qu.data.data.map(i =>
+                            i.name = quizSelection)
+                    
+                    setQuestionCount(allQuestionForCurrentSelectQuiz.length)
+                }
+            })
+        },[quizSelection]
     )
 
     const onOptionAdd = e => {  
@@ -80,8 +92,6 @@ const QuestionInner = (props) => {
                 setQOption('')
                 setQoptions(items)
             }
-            console.log(qOptions);
-            
         }
     }
 
@@ -93,14 +103,15 @@ const QuestionInner = (props) => {
         setQoptions([])
     }
 
-    const handleCorrectAnswerList = () => {
-        console.log(correctAnswer);        
+    const handleCorrectAnswerList = () => { 
+        console.log(correctAnswer);
+             
         var correctAnswerList = []
 
         for(const option of Object.entries(qOptions)){        
             for(var a=1; a < option.length; a = a + 3){
                 Object.getOwnPropertyNames(option[a]).forEach(
-                    function(val){
+                    function(val){                        
                         correctAnswerList.push({
                             _id: val,
                             name: option[a][val]
@@ -109,18 +120,16 @@ const QuestionInner = (props) => {
                 )
             }
         }
-        
 
         return (
-            <Select>
+            <Select
+                value={correctAnswer}
+                onChange={event => setCorrectAnswer(event.target.value)}>
                 <option value="" hidden>
                     - Select One -
                 </option>
                 {correctAnswerList.map((q) =>
-                        <option key={q._id}
-                            value={correctAnswer}
-                            onChange={event => setCorrectAnswer(event.target.value)}
-                        >
+                        <option key={q._id} value={q._id}>
                             {q.name}
                         </option>
                     )
@@ -130,18 +139,15 @@ const QuestionInner = (props) => {
     }
 
     const handleQuizList = () => {
-        console.log(quizSelection);
-        
         return (
-            <Select>
+            <Select
+                value={quizSelection}
+                onChange={event => setQuizSelection(event.target.value)}>
                 <option value="" hidden>
                     - Select One -
                 </option>
                     {quizList.map((q) =>
-                        <option key={q._id}
-                            value={quizSelection}
-                            onChange={event => setQuizSelection(event.target.value)}
-                        >
+                        <option key={q._id} value={q._id}>
                             {q.name}
                         </option>         
                     )}
@@ -150,7 +156,7 @@ const QuestionInner = (props) => {
     }
 
     const handlePointList = () => {
-        var pointList = []
+        var pointList =  [] 
 
         for(var i=0; i <= 100; i = i + 5){
             pointList.push({
@@ -160,7 +166,10 @@ const QuestionInner = (props) => {
         }
 
         return (
-            <Select>
+            <Select
+                value={point}
+                onChange={event => setPoint(event.target.value)}
+            >
                 <option value="" hidden>
                     - Select One -
                 </option>
@@ -174,34 +183,33 @@ const QuestionInner = (props) => {
         )
     }
 
-    const handleOrder = () => {
-            var orderList = []
-            for(var i=0; i < questionCount; i++){
-                orderList.push({
-                    _id:i,
-                    name:i
-                })
-            }
-
-            console.log(orderList);
-            
-            return (
-                <Select>
-                    <option value="" hidden>
-                        - Select One -
-                    </option>
-                    {orderList.map((q) =>
-                            <option key={q._id} value={q.name}>
-                                {q.name}
-                            </option>
-                        )
-                    }
-                </Select>  
-            )                          
+    const handleOrder = () => {        
+        var orderList =  [] 
+        for(var i=0; i < questionCount; i++){
+            orderList.push({
+                _id:i,
+                name:i
+            })
+        }
+        
+        return (
+            <Select>
+                <option value="" hidden>
+                    - Select One -
+                </option>
+                {orderList.map((q) =>
+                        <option key={q._id} value={q.name}>
+                            {q.name}
+                        </option>
+                    )
+                }
+            </Select>  
+        )                          
     }
 
     const handleStatus = () => {
         var statusList = [] 
+
         for(var i=0;i < 2; i++){
             statusList.push({
                 _id:i,
@@ -210,12 +218,15 @@ const QuestionInner = (props) => {
         }
 
         return (
-            <Select>
+            <Select
+                value={status}
+                onChange={event => setStatus(event.target.value)}
+            >
                 <option value="" hidden>
                     - Select One -
                 </option>
                 {statusList.map((q) =>
-                        <option key={q._id} value={q.name}>
+                        <option key={q._id} value={q._id}>
                             {q.name}
                         </option>
                     )
@@ -226,8 +237,18 @@ const QuestionInner = (props) => {
 
     const addNewQuestion = async() => {
         const payload = {
-
+            name: name,
+            answer: correctAnswer,
+            options: qOptions,
+            quizId: quizSelection,
+            point: point,
+            status: status
         }
+        
+        // console.log(qOptions.find(i => i._id === correctAnswer));
+        
+        console.log(payload);
+        
     }
 
     const handleEditQuestion = () => {

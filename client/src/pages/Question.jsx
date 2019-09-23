@@ -34,10 +34,10 @@ const QuestionInner = (props) => {
     const [quizSelection, setQuizSelection] = useState('')
     const [correctAnswer, setCorrectAnswer] = useState('')
     const [point, setPoint] = useState(0)
+    const [order, setOrder] = useState(0)
     const [status, setStatus] = useState('')
     const [questionCount, setQuestionCount] = useState(0)
 
-    // const [text, setText] = useState('Question')
     const onNameChange = event => setName(event.target.value)
     const onOptionChange = event => setQOption(event.target.value)
 
@@ -80,11 +80,10 @@ const QuestionInner = (props) => {
 
                 items.push(item)
                 setQOption('')
-                console.log(items);
                 setQoptions(items)
             } else {               
-                var ks = (items.length+10).toString(36)
-                var item = {
+                ks = (items.length+10).toString(36)
+                item = {
                     [ks]: e.target.value
                 }
 
@@ -104,18 +103,16 @@ const QuestionInner = (props) => {
     }
 
     const handleCorrectAnswerList = () => { 
-        console.log(correctAnswer);
-             
         var correctAnswerList = []
 
         for(const option of Object.entries(qOptions)){        
             for(var a=1; a < option.length; a = a + 3){
                 Object.getOwnPropertyNames(option[a]).forEach(
-                    function(val){                        
+                    function(val){                                              
                         correctAnswerList.push({
                             _id: val,
                             name: option[a][val]
-                        });
+                        });                        
                     }
                 )
             }
@@ -193,7 +190,10 @@ const QuestionInner = (props) => {
         }
         
         return (
-            <Select>
+            <Select
+                value={order}
+                onChange={event => setOrder(event.target.value)}
+            >
                 <option value="" hidden>
                     - Select One -
                 </option>
@@ -237,26 +237,28 @@ const QuestionInner = (props) => {
 
     const addNewQuestion = async() => {
         const payload = {
-            name: name,
             answer: correctAnswer,
             options: qOptions,
             quizId: quizSelection,
+            question: name,
+            status: status,
+            order: order,
             point: point,
-            status: status
         }
         
-        // console.log(qOptions.find(i => i._id === correctAnswer));
-        
-        console.log(payload);
-        
-    }
-
-    const handleEditQuestion = () => {
-        console.log('Edit Question');
-    }
-
-    const handleDeleteQuestion = () => {
-        console.log('Delete Question');
+        await api.insertQuestion(payload).then(res => {
+            if(res.data.success === true){
+                setAddStatus(false)
+                setCorrectAnswer('')
+                setQuizSelection('')
+                setName('')
+                setStatus(0)
+                setOrder(0)
+                setPoint(0)
+                window.alert('Question created successfully !!')
+                window.location.reload()
+            }
+        })
     }
 
     return (
@@ -283,8 +285,6 @@ const QuestionInner = (props) => {
             />
             <ListObj
                 type={'Question'}
-                onEditHandle={handleEditQuestion}
-                onDeleteHandle={handleDeleteQuestion}
                 _id={props._id}
             />
         </div>

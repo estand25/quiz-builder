@@ -24,7 +24,7 @@ const QuizObj = (props) => {
         setStatus(currentStatus)
     }
  
-    const handleDeleteQuiz = async () => {
+    const toDeleteQuiz = async () => {
         if(
             window.confirm(
                 'Do you want to delete the ' + 'Quiz' + 'permanently?',
@@ -54,13 +54,13 @@ const QuizObj = (props) => {
         <Wrappper>
             <ModifyBtnObj 
                 Edit={toEditQuiz}
-                Delete={handleDeleteQuiz}
+                Delete={toDeleteQuiz}
             />
             <QuizDisplaySection
                 name={name}
-                nameTitle={props.nameTitle}
+                nameTitle={'Title: '}
                 desc={description}
-                descTitle={props.descTitle}
+                descTitle={'Description: '}
                 onNameChange={onNameChange}
                 onDescriptionChange={onDescriptionChange}
                 onEditQuiz={onEditQuiz}

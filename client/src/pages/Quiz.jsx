@@ -34,7 +34,7 @@ const QuizInner = (props) => {
                 setDescription('')
                 setText('Quiz')
                 window.alert('Quiz created successfully !!')
-                window.location.href = '/quiz'
+                window.location.reload()
             }
         })
     }

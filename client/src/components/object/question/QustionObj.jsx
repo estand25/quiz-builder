@@ -13,7 +13,6 @@ const QuestionObj = (props) => {
     const [status, setStatus ] = useState(false)
 
     const toEditQuestion = () => {
-        console.log('Edit Question');
         var currentStatus = status ? false : true;
         setStatus(currentStatus)
     }
@@ -43,6 +42,7 @@ const QuestionObj = (props) => {
                 qOrder={props.qOrder}
                 qStatusTitle={'Status: '}
                 qStatus={props.qStatus}
+                status={status}
             />
         </Wrappper>
     )

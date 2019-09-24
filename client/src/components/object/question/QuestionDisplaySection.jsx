@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import OptionObj from '../OptionObj'
+import QuestionModifyObj from '../question/QuestionModifyObj'
 
 const Row = styled.div`
     margin: 5px;
@@ -25,45 +26,56 @@ const GeneralButton = styled.button`
 
 
 const QuestionDisplaySection = (props) => {
-    var oAnswer = ''
+    if(!props.status){
+        var oAnswer = ''
 
-    for(const option of Object.entries(props.options)){        
-        if(Object.getOwnPropertyNames(option[1]).toString() === props.cAnswer){
-            Object.getOwnPropertyNames(option[1]).forEach(
-                function(val){
-                    oAnswer = option[1][val]
-                }
-            )
+        for(const option of Object.entries(props.options)){        
+            if(Object.getOwnPropertyNames(option[1]).toString() === props.cAnswer){
+                Object.getOwnPropertyNames(option[1]).forEach(
+                    function(val){
+                        oAnswer = option[1][val]
+                    }
+                )
+            }
         }
-    }
+    
+        return(
+            <Row>
+                <Label>{props.questionTitle}
+                    {props.question}
+                </Label>
+                <Label>{props.opTitle}
+                    {OptionObj(props, props.options)}
+                </Label>
+                <Label>{props.cAnswerTitle}
+                    <GeneralButton>
+                        {oAnswer}
+                    </GeneralButton>
+                </Label>
+                <Label>{props.qQuizTitle}
+                    {props.qQuiz}
+                </Label>
+                <Label>{props.qPointTitle}
+                    {props.qPoint}
+                </Label>
+                <Label>{props.qOrderTitle}
+                    {props.qOrder}
+                </Label>
+                <Label>{props.qStatusTitle}
+                    {props.qStatus == "0" ? "Turn Off":"Turn On"}
+                </Label>
+            </Row>
+        ) 
+    } else{
+        return (
+            <div>
+                <QuestionModifyObj
 
-    return(
-        <Row>
-            <Label>{props.questionTitle}
-                {props.question}
-            </Label>
-            <Label>{props.opTitle}
-                {OptionObj(props, props.options)}
-            </Label>
-            <Label>{props.cAnswerTitle}
-                <GeneralButton>
-                    {oAnswer}
-                </GeneralButton>
-            </Label>
-            <Label>{props.qQuizTitle}
-                {props.qQuiz}
-            </Label>
-            <Label>{props.qPointTitle}
-                {props.qPoint}
-            </Label>
-            <Label>{props.qOrderTitle}
-                {props.qOrder}
-            </Label>
-            <Label>{props.qStatusTitle}
-                {props.qStatus == "0" ? "Turn Off":"Turn On"}
-            </Label>
-        </Row>
-    ) 
+                />
+            </div>
+        )
+    }
+  
 }
 
 export default QuestionDisplaySection

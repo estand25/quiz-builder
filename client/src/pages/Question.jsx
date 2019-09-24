@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useReducer} from 'react'
 import styled from 'styled-components'
 import { 
     AddObj,
@@ -7,6 +7,8 @@ import {
 import { UserConsumer } from '../hooks/UserContext'
 import api from '../api'
 import QuestionAddSection from '../components/object/question/QuestionAddSection'
+// import initialState from '../Reducers/QuestionReduce'
+// import questionReduce from '../Reducers/QuestionReduce'
 
 const Select = styled.select`
     width: 100%;
@@ -25,7 +27,52 @@ const Select = styled.select`
         padding: 15px 15px 15px 15px;
     }
 `
+const initialState = {
+    name: '',
+    qOption: '',
+    qOptions: [],
+    addStatus: false,
+    quizList: [],
+    quizSelection: '',
+    correctAnswer: '',
+    point: 0,
+    order: 0,
+    status: '',
+    questions: 0    
+}
+
+const questionReduce = (state, action) => {
+    switch (action.type) {
+        case 'setName': 
+            return { ...state, name: action.payload}
+        case 'setQOption':
+            return { ...state, qOption: action.payload}
+        case 'setQoptions':
+            return { ...state, qOptions: action.payload}
+        case 'setAddStatus':
+            return { ...state, addStatus: action.payload}
+        case 'setQuizList':
+            return { ...state, quizList: action.payload}
+        case 'setQuizSelection':
+            return { ...state, quizSelection: action.payload}
+        case 'setCorrectAnswer':
+            return { ...state, correctAnswer: action.payload}
+        case 'setPoint':
+            return { ...state, point: action.payload}
+        case 'setOrder':
+            return { ...state, order: action.payload}
+        case 'setStatus':
+            return { ...state, status: action.payload}
+        case 'setQuestionCount':
+            return { ...state, questionCount: action.payload}
+        default:
+            return state
+    }
+}
+
 const QuestionInner = (props) => {
+    const [state, dispatch] = useReducer(questionReduce, initialState)
+
     const [name, setName] = useState(props.question)
     const [qOption, setQOption] = useState(props.option)
     const [qOptions, setQoptions] = useState([])
@@ -38,8 +85,8 @@ const QuestionInner = (props) => {
     const [status, setStatus] = useState('')
     const [questionCount, setQuestionCount] = useState(0)
 
-    const onNameChange = event => setName(event.target.value)
-    const onOptionChange = event => setQOption(event.target.value)
+    const onNameChange = event => dispatch({type: 'setName', payload: event.target.value})//setName(event.target.value)
+    const onOptionChange = event => dispatch({type: 'setQOption', payload: event.target.value})//setQOption(event.target.value)
 
     useEffect(
         () => {
@@ -79,8 +126,10 @@ const QuestionInner = (props) => {
                 }
 
                 items.push(item)
-                setQOption('')
-                setQoptions(items)
+                // setQOption('')
+                dispatch({type: 'setQOption', payload: ''})
+                // setQoptions(items)
+                dispatch({type: 'setQoptions', payload: items})
             } else {               
                 ks = (items.length+10).toString(36)
                 item = {
@@ -88,18 +137,25 @@ const QuestionInner = (props) => {
                 }
 
                 items.push(item)
-                setQOption('')
-                setQoptions(items)
+                // setQOption('')
+                dispatch({type: 'setQOption', payload: ''})
+                // setQoptions(items)
+                dispatch({type: 'setQoptions', payload: items})
             }
         }
     }
 
     const handleAddQuestion = () => {
         var curentStatus = addStatus ? false : true;
-        setAddStatus(curentStatus)
-        setName('')
-        setQOption('')
-        setQoptions([])
+        dispatch({type:'setAddStatus', paylod: curentStatus})
+        // setAddStatus(curentStatus)
+        dispatch({type:'setName', payload: ''})
+        // setName('')
+        dispatch({type:'setName', payload: ''})
+        // setQOption('')
+        dispatch({type: 'setQOption', payload: ''})
+        // setQoptions([])
+        dispatch({type: 'setQoption', payload: []})
     }
 
     const handleCorrectAnswerList = () => { 
@@ -269,13 +325,13 @@ const QuestionInner = (props) => {
             />
             <QuestionAddSection
                 status={addStatus}
-                name={name}
+                name={state.name}
                 onNameChange={onNameChange}
-                option={qOption}
+                option={state.qOption}
                 onOptionAdd={onOptionChange}
                 options={qOptions}
                 onOptionAdding={onOptionAdd}
-                addNewQuestion={addNewQuestion}
+                onAddNewQuestion={addNewQuestion}
                 onCancel={handleAddQuestion}
                 onCorrectAnswerList={handleCorrectAnswerList}
                 onQuizList={handleQuizList}

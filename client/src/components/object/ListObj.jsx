@@ -31,7 +31,6 @@ const ListObj = (props) => {
                         questions[i].quizDescription = quQuiz[i].quizDescription[0]
                     }
 
-                    // console.log(questions);
                     setObjList(questions)
                 })
             } else {
@@ -41,7 +40,7 @@ const ListObj = (props) => {
                     setObjList(s.data.data)            
                 })
             }
-        },[props.type, props._id]
+        },[]
     )
 
     const Objs = () => {

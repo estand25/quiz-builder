@@ -24,9 +24,19 @@ const GeneralButton = styled.button`
     border-radius: 3px;
 `;
 
+const Edit = styled.button.attrs({
+    className: 'btn btn-primary',
+})`
+    margin: 15px 15px 15px 5px;
+` 
 
+const Cancel = styled.button.attrs({
+    className: 'btn btn-danger',
+})`
+margin 15px 15px 15px 5px;
+`
 const QuestionDisplaySection = (props) => {
-    if(!props.status){
+    if(!props.editStatus){
         var oAnswer = ''
 
         for(const option of Object.entries(props.options)){        
@@ -41,27 +51,27 @@ const QuestionDisplaySection = (props) => {
     
         return(
             <Row>
-                <Label>{props.questionTitle}
-                    {props.question}
+                <Label>{'Question: '}
+                    {props.name}
                 </Label>
-                <Label>{props.opTitle}
+                <Label>{'Question Options: '}
                     {OptionObj(props, props.options)}
                 </Label>
-                <Label>{props.cAnswerTitle}
+                <Label>{'Correct Answer: '}
                     <GeneralButton>
                         {oAnswer}
                     </GeneralButton>
                 </Label>
-                <Label>{props.qQuizTitle}
+                <Label>{'Quiz: '}
                     {props.qQuiz}
                 </Label>
-                <Label>{props.qPointTitle}
+                <Label>{'Point: '}
                     {props.qPoint}
                 </Label>
-                <Label>{props.qOrderTitle}
+                <Label>{'Order: '}
                     {props.qOrder}
                 </Label>
-                <Label>{props.qStatusTitle}
+                <Label>{'Status: '}
                     {props.qStatus == "0" ? "Turn Off":"Turn On"}
                 </Label>
             </Row>
@@ -70,8 +80,20 @@ const QuestionDisplaySection = (props) => {
         return (
             <div>
                 <QuestionModifyObj
-
-                />
+                    name={props.name}
+                    onNameChange={props.onNameChange}
+                    option={props.option}
+                    onOptionAdd={props.onOptionAdd}
+                    onOptionAdding={props.onOptionAdding}
+                    options={props.options}
+                    onCorrectAnswerList={props.onCorrectAnswerList}
+                    onQuizList={props.onQuizList}
+                    onPintList={props.onPintList}
+                    onOrder={props.onOrder}
+                    onStatus={props.onStatus}
+                /> 
+                <Edit onClick={props.onEditQuestion}>{'Edit'}</Edit>
+                <Cancel onClick={props.onCancel}>{'Cancel'}</Cancel>
             </div>
         )
     }

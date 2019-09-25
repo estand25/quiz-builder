@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer} from 'react'
+import React, { useEffect, useReducer} from 'react'
 import styled from 'styled-components'
 import { 
     AddObj,
@@ -7,8 +7,6 @@ import {
 import { UserConsumer } from '../hooks/UserContext'
 import api from '../api'
 import QuestionAddSection from '../components/object/question/QuestionAddSection'
-// import initialState from '../Reducers/QuestionReduce'
-// import questionReduce from '../Reducers/QuestionReduce'
 
 const Select = styled.select`
     width: 100%;
@@ -73,21 +71,6 @@ const questionReduce = (state, action) => {
 const QuestionInner = (props) => {
     const [state, dispatch] = useReducer(questionReduce, initialState)
 
-    const [name, setName] = useState(props.question)
-    const [qOption, setQOption] = useState(props.option)
-    const [qOptions, setQoptions] = useState([])
-    const [addStatus, setAddStatus] = useState(false)
-    const [quizList, setQuizList] = useState([])
-    const [quizSelection, setQuizSelection] = useState('')
-    const [correctAnswer, setCorrectAnswer] = useState('')
-    const [point, setPoint] = useState(0)
-    const [order, setOrder] = useState(0)
-    const [status, setStatus] = useState('')
-    const [questionCount, setQuestionCount] = useState(0)
-
-    const onNameChange = event => dispatch({type: 'setName', payload: event.target.value})//setName(event.target.value)
-    const onOptionChange = event => dispatch({type: 'setQOption', payload: event.target.value})//setQOption(event.target.value)
-
     useEffect(
         () => {
             api.getAllQuiz().then(q =>{
@@ -99,7 +82,7 @@ const QuestionInner = (props) => {
                         })
                     )
 
-                    setQuizList(quiz)
+                    dispatch({type:'setQuizList', payload: quiz})
                 }
             })
 
@@ -107,18 +90,18 @@ const QuestionInner = (props) => {
                 if(qu.data.success === true){
                     var allQuestionForCurrentSelectQuiz =
                         qu.data.data.map(i =>
-                            i.name = quizSelection)
+                            i.name = state.quizSelection)
                     
-                    setQuestionCount(allQuestionForCurrentSelectQuiz.length)
+                    dispatch({type: 'setQuestionCount', payload: allQuestionForCurrentSelectQuiz.length })
                 }
             })
-        },[quizSelection]
+        },[state.quizSelection]
     )
 
     const onOptionAdd = e => {  
         if(e.key === 'Enter'){
-            var items = qOptions
-            if(qOptions.length === 0){
+            var items = state.qOptions
+            if(state.qOptions.length === 0){
                 var k = 0;
                 var ks = (k+10).toString(36)
                 var item = {
@@ -126,9 +109,7 @@ const QuestionInner = (props) => {
                 }
 
                 items.push(item)
-                // setQOption('')
                 dispatch({type: 'setQOption', payload: ''})
-                // setQoptions(items)
                 dispatch({type: 'setQoptions', payload: items})
             } else {               
                 ks = (items.length+10).toString(36)
@@ -137,31 +118,25 @@ const QuestionInner = (props) => {
                 }
 
                 items.push(item)
-                // setQOption('')
                 dispatch({type: 'setQOption', payload: ''})
-                // setQoptions(items)
                 dispatch({type: 'setQoptions', payload: items})
             }
         }
     }
 
     const handleAddQuestion = () => {
-        var curentStatus = addStatus ? false : true;
-        dispatch({type:'setAddStatus', paylod: curentStatus})
-        // setAddStatus(curentStatus)
-        dispatch({type:'setName', payload: ''})
-        // setName('')
-        dispatch({type:'setName', payload: ''})
-        // setQOption('')
+        var curentStatus = state.addStatus ? false : true;
+
+        dispatch({type: 'setAddStatus', payload: curentStatus})
+        dispatch({type: 'setName', payload: ''})
+        dispatch({type: 'setName', payload: ''})
         dispatch({type: 'setQOption', payload: ''})
-        // setQoptions([])
         dispatch({type: 'setQoption', payload: []})
     }
 
     const handleCorrectAnswerList = () => { 
         var correctAnswerList = []
-
-        for(const option of Object.entries(qOptions)){        
+        for(const option of Object.entries(state.qOptions)){        
             for(var a=1; a < option.length; a = a + 3){
                 Object.getOwnPropertyNames(option[a]).forEach(
                     function(val){                                              
@@ -176,8 +151,8 @@ const QuestionInner = (props) => {
 
         return (
             <Select
-                value={correctAnswer}
-                onChange={event => setCorrectAnswer(event.target.value)}>
+                value={state.correctAnswer}
+                onChange={event => dispatch({type: 'setCorrectAnswer', payload: event.target.value})}>
                 <option value="" hidden>
                     - Select One -
                 </option>
@@ -194,12 +169,12 @@ const QuestionInner = (props) => {
     const handleQuizList = () => {
         return (
             <Select
-                value={quizSelection}
-                onChange={event => setQuizSelection(event.target.value)}>
+                value={state.quizSelection}
+                onChange={event => dispatch({type: 'setQuizSelection', payload:  event.target.value})}>
                 <option value="" hidden>
                     - Select One -
                 </option>
-                    {quizList.map((q) =>
+                    {state.quizList.map((q) =>
                         <option key={q._id} value={q._id}>
                             {q.name}
                         </option>         
@@ -210,7 +185,6 @@ const QuestionInner = (props) => {
 
     const handlePointList = () => {
         var pointList =  [] 
-
         for(var i=0; i <= 100; i = i + 5){
             pointList.push({
                 _id: i,
@@ -220,8 +194,8 @@ const QuestionInner = (props) => {
 
         return (
             <Select
-                value={point}
-                onChange={event => setPoint(event.target.value)}
+                value={state.point}
+                onChange={event => dispatch({type:'setPoint', payload: event.target.value})}
             >
                 <option value="" hidden>
                     - Select One -
@@ -235,10 +209,10 @@ const QuestionInner = (props) => {
             </Select>
         )
     }
-
+    
     const handleOrder = () => {        
         var orderList =  [] 
-        for(var i=0; i < questionCount; i++){
+        for(var i=0; i < state.questionCount; i++){
             orderList.push({
                 _id:i,
                 name:i
@@ -247,8 +221,8 @@ const QuestionInner = (props) => {
         
         return (
             <Select
-                value={order}
-                onChange={event => setOrder(event.target.value)}
+                value={state.order}
+                onChange={event => dispatch({type: 'setOrder', payload: event.target.value})}
             >
                 <option value="" hidden>
                     - Select One -
@@ -262,10 +236,9 @@ const QuestionInner = (props) => {
             </Select>  
         )                          
     }
-
+    
     const handleStatus = () => {
         var statusList = [] 
-
         for(var i=0;i < 2; i++){
             statusList.push({
                 _id:i,
@@ -275,8 +248,8 @@ const QuestionInner = (props) => {
 
         return (
             <Select
-                value={status}
-                onChange={event => setStatus(event.target.value)}
+                value={state.status}
+                onChange={event => dispatch({type: 'setStatus', payload: event.target.value})}
             >
                 <option value="" hidden>
                     - Select One -
@@ -291,26 +264,27 @@ const QuestionInner = (props) => {
         )
     }
 
-    const addNewQuestion = async() => {
+    const addNewQuestion = async() => {       
         const payload = {
-            answer: correctAnswer,
-            options: qOptions,
-            quizId: quizSelection,
-            question: name,
-            status: status,
-            order: order,
-            point: point,
+            answer: state.correctAnswer,
+            options: state.qOptions,
+            quizId: state.quizSelection,
+            question: state.name,
+            status: state.status,
+            order: state.order,
+            point: state.point,
         }
         
         await api.insertQuestion(payload).then(res => {
             if(res.data.success === true){
-                setAddStatus(false)
-                setCorrectAnswer('')
-                setQuizSelection('')
-                setName('')
-                setStatus(0)
-                setOrder(0)
-                setPoint(0)
+                dispatch({type: 'setAddStatus', payload: false})
+                dispatch({type: 'setCorrectAnswer', payload: ''})
+                dispatch({type: 'setQuizSelection', payload: ''})
+                dispatch({type: 'setName', payload: ''})
+                dispatch({type: 'setStatus', payload: 0})
+                dispatch({type: 'setOrder', payload: 0})
+                dispatch({type: 'setPoint', payload: 0})
+
                 window.alert('Question created successfully !!')
                 window.location.reload()
             }
@@ -324,12 +298,12 @@ const QuestionInner = (props) => {
                 onAddHandle={handleAddQuestion}
             />
             <QuestionAddSection
-                status={addStatus}
+                status={state.addStatus}
                 name={state.name}
-                onNameChange={onNameChange}
+                onNameChange={event => dispatch({type: 'setName', payload: event.target.value})}
                 option={state.qOption}
-                onOptionAdd={onOptionChange}
-                options={qOptions}
+                onOptionAdd={event => dispatch({type: 'setQOption', payload: event.target.value})}
+                options={state.qOptions}
                 onOptionAdding={onOptionAdd}
                 onAddNewQuestion={addNewQuestion}
                 onCancel={handleAddQuestion}

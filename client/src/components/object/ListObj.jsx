@@ -10,9 +10,6 @@ const ListObj = (props) => {
 
     useEffect(
         () => {
-            console.log(props._id);
-            console.log(props.type);
-
             if(props.type === 'Quiz'){
                 apis.getAllQuiz().then(q => {
                     console.log('Quiz');
@@ -25,12 +22,15 @@ const ListObj = (props) => {
 
                     var questions = qu.data.data
                     var quQuiz = qu.data.dataExtra
+                    console.log(quQuiz);
+                    
 
                     for(var i=0; i < questions.length; i++){
                         questions[i].quizName = quQuiz[i].quizName[0]
                         questions[i].quizDescription = quQuiz[i].quizDescription[0]
                     }
-
+                    console.log(questions);
+                    
                     setObjList(questions)
                 })
             } else {
@@ -54,19 +54,17 @@ const ListObj = (props) => {
                     <TempObj key={i._id}
                         name={i.name}
                         desc={i.description}
-                        question={ i.question}
+                        question={i.question}
                         option={i.options}
                         cAnswer={i.answer}
                         qQuiz={i.quizName}
                         qPoint={i.point}
                         qOrder={i.order}
                         qStatus={i.status}
-                        score={'Score: ' + i.score}
-                        sQuizTitle={'Quiz: '}
-                        sQuestionCount={'Question Count: '}
                         qQuizId={i.quizId}
+                        score={i.score}
                         nonAnswered={i.nonAnswered}
-                        quizId={i._id}
+                        _Id={i._id}
                         type={props.type}
                     />
                 )}

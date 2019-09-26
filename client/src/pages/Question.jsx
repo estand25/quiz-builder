@@ -264,7 +264,7 @@ const QuestionInner = (props) => {
         )
     }
 
-    const addNewQuestion = async() => {       
+    const addNewQuestion = async() => {   
         const payload = {
             answer: state.correctAnswer,
             options: state.qOptions,

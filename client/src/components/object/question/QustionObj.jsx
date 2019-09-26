@@ -64,12 +64,13 @@ const QuestionObj = (props) => {
         qOptions: props.option,
         editStatus: false,
         quizList: [],
-        quizSelection: props.qQuiz,
+        quizSelection: props.qQuizId,
         correctAnswer: props.cAnswer,
         point: props.qPoint,
         order: props.qOrder,
         status: props.qStatus,
-        questions: 0    
+        questions: 0,
+        _Id: props._Id    
     }
 
     const [state, dispatch] = useReducer(questionReduce, initialState)
@@ -84,7 +85,7 @@ const QuestionObj = (props) => {
                             description: i.description
                         })
                     )
-
+                    
                     dispatch({type:'setQuizList', payload: quiz})
                 }
             })
@@ -107,7 +108,14 @@ const QuestionObj = (props) => {
     }
 
     const toDeleteQuestion = async () => {
-        console.log('Delete Question');
+        if(
+            window.confirm(
+                'Do you want to delete the question permanently?',
+            )
+        ) {
+            api.deleteQuestionById(state._Id)
+            window.location.reload()
+        }
     }
 
     const onOptionAdding = e => {
@@ -171,7 +179,7 @@ const QuestionObj = (props) => {
     const onQuizList = () => {
         return (
             <Select
-                value={state.quizList.filter(i => i.name === state.quizSelection)[0]._id}
+                value={state.quizSelection}
                 onChange={event => dispatch({type: 'setQuizSelection', payload:  event.target.value})}>
                 <option value="" hidden>
                     - Select One -
@@ -266,12 +274,35 @@ const QuestionObj = (props) => {
         )      
     }
 
-    const onEditQuestion = () => {
+    const onEditQuestion = async() => {
+        const payload = {
+            answer: state.correctAnswer,
+            options: state.qOptions,
+            quizId: state.quizSelection,
+            question: state.name,
+            status: state.status,
+            order: state.order,
+            point: state.point
+        }        
 
+        await api.updateQuestionById(state._Id, payload).then(res => {
+            if(res.data.success === true){
+                dispatch({type: 'setEditStatus', payload: false})
+                dispatch({type: 'setCorrectAnswer', payload: ''})
+                dispatch({type: 'setQuizSelection', payload: ''})
+                dispatch({type: 'setName', payload: ''})
+                dispatch({type: 'setStatus', payload: 0})
+                dispatch({type: 'setOrder', payload: 0})
+                dispatch({type: 'setPoint', payload: 0})
+
+                window.alert('Question edit successfully !!')
+                window.location.reload()
+            }
+        })
     }
 
     const onCancel = () => {
-
+        dispatch({type: 'setEditStatus', payload: false})
     }
 
     return (

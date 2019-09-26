@@ -23,15 +23,15 @@ const ScoreObj = (props) => {
                 var allQuestion = q.data.data
 
                 var allScoreQuestion = allQuestion
-                    .filter(al => al.quizId === props.quizId)
+                    .filter(al => al.quizId === props._Id)
                     
                 setQuestionCount(allScoreQuestion.length)              
             })
 
-            api.getQuizById(props.quizId).then(q => {              
+            api.getQuizById(props._Id).then(q => {              
                 setQuiz(q.data.data.name);
             })
-        },[props.quizId]
+        },[props._Id]
     )
 
     return (
@@ -40,9 +40,9 @@ const ScoreObj = (props) => {
                 Edit={props.onEditHandle}
                 Delete={props.onDeleteHandle}
             />
-            <Label>{props.score}</Label>
-            <Label>{props.sQuizTitle}{quizTitle}</Label>
-            <Label>{props.sQuestionCount}{questionCount}</Label>
+            <Label>{'Score: '}{props.score}</Label>
+            <Label>{'Quiz: '}{quizTitle}</Label>
+            <Label>{'Question Count: '}{questionCount}</Label>
         </Wrappper>
     )
 }

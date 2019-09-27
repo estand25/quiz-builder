@@ -4,16 +4,25 @@ import OptionButton from './OptionButton'
 const OptionObj = (props, option) => {
     var op = []
 
-    for (const [key, value] of Object.entries(option)) {
-        for(const [key1, value1] of Object.entries(value)) {
-            op.push(value1) 
+    let opt = null;
+    let subItem = null;
+
+    for (opt of Object.entries(option)) {
+        for(var a=1; a < opt.length; a = a + 3){
+            subItem = opt[a]
+            Object.getOwnPropertyNames(subItem).forEach(val => {
+                    op.push(subItem[val])
+                }
+            )
         }
     }
+
 
     return (
         <OptionButton
             option={op}
             onLabelOnClick={props.onLabelOnClick}
+            onOptionModif={props.onOptionModif}
         />
     )
 }

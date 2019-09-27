@@ -27,10 +27,10 @@ const QuizObj = (props) => {
     const toDeleteQuiz = async () => {
         if(
             window.confirm(
-                'Do you want to delete the ' + 'Quiz' + ' permanently?',
+                'Do you want to delete the Quiz permanently?',
             )
         ) {
-            api.deleteQuizById(props._Id)
+            api.deleteQuizById(props.sId)
             window.location.reload()
         }
     }   
@@ -41,8 +41,8 @@ const QuizObj = (props) => {
             description
         }
 
-        await api.updateQuizById(props._Id,payload).then(res => {
-            if(res.data.success == true){
+        await api.updateQuizById(props.sId,payload).then(res => {
+            if(res.data.success){
                 window.alert('Quiz edit successfully !!')
                 setStatus(false)
             }

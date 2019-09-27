@@ -70,9 +70,19 @@ const QuestionObj = (props) => {
         order: props.qOrder,
         status: props.qStatus,
         questions: 0,
-        _Id: props._Id    
+        _Id: props.quId    
     }
 
+    const [x, setX] = useState(0)
+    const [y, setY] = useState(0)
+    const myMenu = styled.div`
+        padding: 5px 5px 5px 5px;
+        border: 1px solid black;
+        margin: 10px;
+        position: absolute;
+        top: '${x}'px;
+        left: '${y}'px;
+    ` 
     const [state, dispatch] = useReducer(questionReduce, initialState)
 
     useEffect(
@@ -146,13 +156,18 @@ const QuestionObj = (props) => {
 
     const onCorrectAnswerList = () => {
         var correctAnswerList = []
-        for(const option of Object.entries(state.qOptions)){        
+        
+        let option = null;
+        let subItem = null;
+
+        for(option of Object.entries(state.qOptions)){        
             for(var a=1; a < option.length; a = a + 3){
-                Object.getOwnPropertyNames(option[a]).forEach(
+                subItem = option[a]
+                Object.getOwnPropertyNames(subItem).forEach(
                     function(val){                                              
                         correctAnswerList.push({
                             _id: val,
-                            name: option[a][val]
+                            name: subItem[val]
                         });                        
                     }
                 )
@@ -252,7 +267,7 @@ const QuestionObj = (props) => {
         for(var i=0;i < 2; i++){
             statusList.push({
                 _id:i,
-                name: i == 0? "Turned Off": "Turn On"
+                name: i === 0? "Turned Off": "Turn On"
             })
         }
 
@@ -305,6 +320,27 @@ const QuestionObj = (props) => {
         dispatch({type: 'setEditStatus', payload: false})
     }
 
+    // const [visible, setVisible] = useState(false)
+
+    const onOptionModif = e => {
+        if(e.type === 'click'){
+            console.log(e.type);
+
+            setX(e.clientX)
+            console.log(e.clientX);
+            
+            setY(e.clientY)
+            console.log(e.clientY);
+            
+            return (
+                <myMenu>
+                    {'Testing'}
+                </myMenu>
+            )
+
+        }
+    }
+
     return (
         <Wrappper>
             <ModifyBtnObj 
@@ -331,6 +367,7 @@ const QuestionObj = (props) => {
                 editStatus={state.editStatus}
                 onEditQuestion={onEditQuestion}
                 onCancel={onCancel}
+                onOptionModif={e => onOptionModif(e)}
 
             />
         </Wrappper>

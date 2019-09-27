@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import api from '../../../api'
-import ModifyBtnObj from '../ModifyBtnObj'
 
 const Wrappper = styled.div`
     padding: 5px 5px 5px 5px;
@@ -23,23 +22,19 @@ const ScoreObj = (props) => {
                 var allQuestion = q.data.data
 
                 var allScoreQuestion = allQuestion
-                    .filter(al => al.quizId === props._Id)
+                    .filter(al => al.quizId === props.qId)
                     
                 setQuestionCount(allScoreQuestion.length)              
             })
-
-            api.getQuizById(props._Id).then(q => {              
+            
+            api.getQuizById(props.qId).then(q => {              
                 setQuiz(q.data.data.name);
             })
-        },[props._Id]
+        },[props.qId]
     )
 
     return (
         <Wrappper>
-            <ModifyBtnObj 
-                Edit={props.onEditHandle}
-                Delete={props.onDeleteHandle}
-            />
             <Label>{'Score: '}{props.score}</Label>
             <Label>{'Quiz: '}{quizTitle}</Label>
             <Label>{'Question Count: '}{questionCount}</Label>

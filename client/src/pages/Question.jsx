@@ -136,15 +136,17 @@ const QuestionInner = (props) => {
 
     const handleCorrectAnswerList = () => { 
         var correctAnswerList = []
-        for(const option of Object.entries(state.qOptions)){        
+        var option = null;
+        var subItem = null;
+
+        for(option of Object.entries(state.qOptions)){        
             for(var a=1; a < option.length; a = a + 3){
-                Object.getOwnPropertyNames(option[a]).forEach(
-                    function(val){                                              
-                        correctAnswerList.push({
-                            _id: val,
-                            name: option[a][val]
-                        });                        
-                    }
+                subItem = option[a]
+                Object.getOwnPropertyNames(subItem).forEach(val =>                                              
+                    correctAnswerList.push({
+                        _id: val,
+                        name: subItem[val]
+                    })                       
                 )
             }
         }
@@ -242,7 +244,7 @@ const QuestionInner = (props) => {
         for(var i=0;i < 2; i++){
             statusList.push({
                 _id:i,
-                name: i == 0? "Turned Off": "Turn On"
+                name: i === 0? "Turned Off": "Turn On"
             })
         }
 

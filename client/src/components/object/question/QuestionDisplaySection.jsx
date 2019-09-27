@@ -39,12 +39,14 @@ const QuestionDisplaySection = (props) => {
     if(!props.editStatus){
         var oAnswer = ''
 
-        for(const option of Object.entries(props.options)){        
-            if(Object.getOwnPropertyNames(option[1]).toString() === props.cAnswer){
-                Object.getOwnPropertyNames(option[1]).forEach(
-                    function(val){
-                        oAnswer = option[1][val]
-                    }
+        let option = null;
+        let subItem = null;
+
+        for(option of Object.entries(props.options)){ 
+            subItem = option[1]       
+            if(Object.getOwnPropertyNames(subItem).toString() === props.cAnswer){
+                Object.getOwnPropertyNames(subItem).forEach(val =>
+                        oAnswer = subItem[val]
                 )
             }
         }
@@ -72,11 +74,11 @@ const QuestionDisplaySection = (props) => {
                     {props.qOrder}
                 </Label>
                 <Label>{'Status: '}
-                    {props.qStatus == "0" ? "Turn Off":"Turn On"}
+                    {props.qStatus === "0" ? "Turn Off":"Turn On"}
                 </Label>
             </Row>
         ) 
-    } else{
+    } else {
         return (
             <div>
                 <QuestionModifyObj
@@ -91,6 +93,7 @@ const QuestionDisplaySection = (props) => {
                     onPintList={props.onPintList}
                     onOrder={props.onOrder}
                     onStatus={props.onStatus}
+                    onOptionModif={props.onOptionModif}
                 /> 
                 <Edit onClick={props.onEditQuestion}>{'Edit'}</Edit>
                 <Cancel onClick={props.onCancel}>{'Cancel'}</Cancel>

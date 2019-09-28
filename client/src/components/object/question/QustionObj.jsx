@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer} from 'react'
+import React, { useEffect, useReducer} from 'react'
 import styled from 'styled-components'
 import QuestionDisplaySection from './QuestionDisplaySection'
 import ModifyBtnObj from '../ModifyBtnObj'
@@ -73,16 +73,7 @@ const QuestionObj = (props) => {
         _Id: props.quId    
     }
 
-    const [x, setX] = useState(0)
-    const [y, setY] = useState(0)
-    const myMenu = styled.div`
-        padding: 5px 5px 5px 5px;
-        border: 1px solid black;
-        margin: 10px;
-        position: absolute;
-        top: '${x}'px;
-        left: '${y}'px;
-    ` 
+    //https://medium.com/@subalerts/https-medium-com-implementing-custom-context-menu-in-react-js-part-1-b103260c724c
     const [state, dispatch] = useReducer(questionReduce, initialState)
 
     useEffect(
@@ -320,22 +311,25 @@ const QuestionObj = (props) => {
         dispatch({type: 'setEditStatus', payload: false})
     }
 
-    // const [visible, setVisible] = useState(false)
-
     const onOptionModif = e => {
         if(e.type === 'click'){
-            console.log(e.type);
+            console.log(e.type);  
+            console.log(e.clientX); 
+            console.log(e.clientY);          
 
-            setX(e.clientX)
-            console.log(e.clientX);
+            const myMenu = styled.div`
+                border: 1px solid black;
+                position: absolute;
+                top: 378px;
+                left: 305px;
+                z-index: 4;
+            ` 
             
-            setY(e.clientY)
-            console.log(e.clientY);
-            
+            // top: '${e.clientX}'px;
+            // left: '${e.clientY}'px;
+
             return (
-                <myMenu>
-                    {'Testing'}
-                </myMenu>
+                <myMenu />
             )
 
         }

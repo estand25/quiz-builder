@@ -1,13 +1,21 @@
 import React from 'react'
 import OptionButton from './OptionButton'
+import styled from 'styled-components'
+const Holder = styled.div``
 
-const OptionObj = (props, option) => {
+const OptionObj = (props) => {
+    if(props.options.length === 0 ){
+        return (
+            <Holder />
+        )
+    }
+
     var op = []
 
     let opt = null;
     let subItem = null;
 
-    for (opt of Object.entries(option)) {
+    for (opt of Object.entries(props.options)) {
         for(var a=1; a < opt.length; a = a + 3){
             subItem = opt[a]
             Object.getOwnPropertyNames(subItem).forEach(val => {
@@ -21,7 +29,6 @@ const OptionObj = (props, option) => {
     return (
         <OptionButton
             option={op}
-            onLabelOnClick={props.onLabelOnClick}
             onOptionModif={props.onOptionModif}
         />
     )

@@ -35,7 +35,13 @@ const QuestionModifyObj = (props) => {
                     onChange={props.onOptionAdd}
                     onKeyDown={props.onOptionAdding}                   
                 />
-                <Label>{'Options: '}{props.options.length === 0 ? '' : OptionObj(props, props.options)}</Label>
+                <Label>{'Options: '}
+                    <OptionObj
+                        options={props.options}
+                        onLabelOnClick={props.onLabelOnClick}
+                        onOptionModif={props.onOptionModif}
+                    />
+                </Label>
             </Spacing>
             <Spacing>
                 <Label>
@@ -72,3 +78,6 @@ const QuestionModifyObj = (props) => {
 }
 
 export default QuestionModifyObj
+
+
+// {props.options.length === 0 ? '' : OptionObj(props, props.options)}

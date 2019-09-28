@@ -94,6 +94,7 @@ const QuestionDisplaySection = (props) => {
                     onOrder={props.onOrder}
                     onStatus={props.onStatus}
                     onOptionModif={props.onOptionModif}
+                    onBtnModify={true}
                 /> 
                 <Edit onClick={props.onEditQuestion}>{'Edit'}</Edit>
                 <Cancel onClick={props.onCancel}>{'Cancel'}</Cancel>

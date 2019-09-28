@@ -11,11 +11,16 @@ const GeneralButton = styled.button`
 `;
 
 const OptionButtons = (props) => {
-    return Object.entries(props.option).map(([key,value]) => (
-        <GeneralButton key={key} onClick={props.onOptionModif}>
-            {value}
-        </GeneralButton>
-    ))
+    return (
+        Object.entries(props.option).map(([key,value]) => (
+                <GeneralButton 
+                    key={key} 
+                    onClick={props.onOptionModif}>
+                    {value}
+                </GeneralButton>
+            )
+        )
+    )
 }
 
 export default OptionButtons
